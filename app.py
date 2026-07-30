@@ -172,7 +172,7 @@ st.markdown(
   **Downtown and Strathacona as their own clusters** 
   This makes sense for downtown since its the commercial core of Vancouver. Its lisence is 
   heavy on legal services, health care, and long term rental. There are more short term rentals than 
-  residential areas which is expected of the most commercial part of the city. <br>
+  residential areas which is expected of the most commercial part of the city.
   Strathacona showfood and non-food manufacturing in its top 5 which is very interesting. This 
   aligns with the history of the actual area, since its more older and industrial. Its near the rail 
   yards and old warehouse district
