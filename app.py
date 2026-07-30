@@ -130,3 +130,57 @@ st.plotly_chart(fig_map, use_container_width=True)
 
 
 # B4 — Cluster membership and interpretation
+st.subheader("cluster membership")
+#  looping through each cluster, sorting the areas by business count, and displaying the top 5 business types by average share in that cluster
+for c in sorted(area_info["cluster"].unique(), key=int):
+  members = area_info[area_info["cluster"]==c].sort_values(
+    "business_count", ascending= False
+  )
+  top_types =composition.loc[members.index].mean().sort_values(ascending=False).head(5)
+# displaying the cluster info in an expander
+  with st.expander(
+    f"Cluster {c}-{len(members)} areas: "
+    + ", ".join(members.index.tolist())
+):
+    st.write("areas (sorted by business count):")
+    st.dataframe(members[["business_count"]])
+    st.write("top 5 business types by average share in this cluster:")
+    st.dataframe(top_types.round(1).rename("avg % of licences"))
+ 
+st.subheader("1) Part B Analysis")
+st.markdown(
+  """
+  After testing out different K values, I found that K=6 had the most groupings without 
+  separating the clusters into too many groups of 1. There are however, 
+  still multiple groups of one here regardless.
+
+  **The two big clusters** 
+  Both of the big clusters (the 11 areas and 8 areas) are dominated by the long term rental, 
+  healthcare, and some retail/contractor activity in the mix. The split between them isnt super clean.
+  Cluster 1 leans more toward short term rentals, but they look pretty similar otherwise.
+  One thing that does stand out is that Kerrisdale ends up being grouped with Mount Pleasant and West End.
+  This is kinda surprising since Kerrisdale is a quiet, wealthier, west side neighborhool while the other 
+  two are more denser and reter heavy urban neighborhoods.
+
+  **Fairview and healthcare**
+  An interesting detail I noticed was that Fairview dominates in the health care realm. 
+  A quarter of its lisences are health care professionals and services which is way more than 
+  anywhere else. This alot of sense, since VGH and the Broadway medical corridor are in Fairview 
+  so there are naturally alot of clinics and private practices
+
+
+  **Downtown and Strathacona as their own clusters** 
+  This makes sense for downtown since its the commercial core of Vancouver. Its lisence is 
+  heavy on legal services, health care, and long term rental. There are more short term rentals than 
+  residential areas which is expected of the most commercial part of the city. <br>
+  Strathacona showfood and non-food manufacturing in its top 5 which is very interesting. This 
+  aligns with the history of the actual area, since its more older and industrial. Its near the rail 
+  yards and old warehouse district
+
+  **Other thoughts** 
+  The clustering does a good job at isolating the handfuls of neighborhoods with a specific business mix
+  . Most of the citys neighborhoods fall into one of two long term, rental heavy groups. 
+  I'd say the main thing that was surprising to me was Kerisdale being grouped in with more denser and central 
+  neighborhoods (since I would have expected ut to be grouped with quieter west-side ones ex. Dunbar, Shaughnessy)
+  """
+)
